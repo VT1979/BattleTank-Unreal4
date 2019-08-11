@@ -14,14 +14,23 @@ UCLASS()
 class BATTLETANK_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
-	
-public:
+
+private:
 	ATank* GetControlledTank() const;
 	void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
-private:
 	//Start moving the tank's barrel so that a shot would hit where the crosshair intersects the world. 
 	void AimTowardsCrosshair();
 	bool GetSightRayHitLocation(FVector& OutHitLocation) const;
+
+	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
+
+	UPROPERTY(EditAnywhere)
+	float CrossHairXLocation = 0.5f;
+	UPROPERTY(EditAnywhere)
+	float CrossHairYLocation = 0.33333f;
+
+	float ScreenLocationXCoordinate;
+	float ScreenLocationYCoordinate;
 };
