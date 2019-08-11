@@ -56,12 +56,15 @@ ATank* ATankPlayerController::GetControlledTank() const
 
 bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) const
 {
+	
+	int32 ViewportSizeX, ViewportSizeY;
+	GetViewportSize(ViewportSizeX, ViewportSizeY);
 	//Get access to the PlayerUI_BP widget Blueprint
 	//Build a linetrace, start Vector is Player's viewpointlocation, end vector is the cross hair
 	// Reach is something long enough to extend the total size of the map/just to be sure
 	//If overlaps with terrain return true. initialise HitLocation with coordinates at endpoint of hit
 	// if no overlap then return false
-	OutHitLocation = FVector(1.0f);
+	//OutHitLocation = FVector(1.0f);
 	return true;
 	
 }
