@@ -2,12 +2,7 @@
 
 
 #include "Tank.h"
-/*
-void ATank::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
-{
-	TankAimingComponent->SetBarrelReference(BarrelToSet);
-}
-*/
+
 
 // Sets default values
 ATank::ATank()
@@ -16,7 +11,12 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = true;
 
 	//No need to protect pointers as added at construction
-	//TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+}
+
+void ATank::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
+{
+	TankAimingComponent->SetBarrelReference(BarrelToSet);
 }
 
 // Called when the game starts or when spawned
@@ -42,5 +42,5 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ATank::AimAt(FVector HitLocation)
 {	
-	//TankAimingComponent->AimAt(HitLocation);
+	TankAimingComponent->AimAt(HitLocation);
 }
