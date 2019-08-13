@@ -2,6 +2,8 @@
 
 
 #include "TankPlayerController.h"
+#include "Public/Tank.h"
+#include "Engine/World.h"
 
 //#include "BattleTank.h" (instructor has it in vide, is it necessary?)
 
