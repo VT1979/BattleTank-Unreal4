@@ -98,9 +98,17 @@ void UTankAimingComponent::MoveBarrel(FVector AimDirection)
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
 
 	Barrel->Elevate(DeltaRotator.Pitch);
-	Turret->Rotate(DeltaRotator.Yaw);
-
 	
+	// The following if/else test determines how the turret should move (clock-/anti-clock wise) avoiding turning the long way around to the aiming spot
+	if (FMath::Abs(DeltaRotator.Yaw) < 180)
+	{
+		Turret->Rotate(DeltaRotator.Yaw);
+	}
+	
+	else
+	{
+		Turret->Rotate(-DeltaRotator.Yaw);
+	}
 }
 
 

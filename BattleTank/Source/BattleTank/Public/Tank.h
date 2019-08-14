@@ -6,8 +6,9 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h" // must always be last
 
-// Forward declaration
+// Forward declarations
 class UTankAimingComponent;
+class AProjectile;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -42,6 +43,12 @@ private:
 	void Fire();
 
 	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 100000.0f; //TODO find a sensible default
+	float LaunchSpeed = 4000.0f; //TODO find a sensible default
+
+	UPROPERTY(EditAnywhere, Category = Setup)
+	TSubclassOf<AProjectile> ProjectileBlueprint; 
+
+	// Local barrel reference for spawning projectile
+	UTankBarrel* Barrel = nullptr;
 
 };

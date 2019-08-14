@@ -105,5 +105,5 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 	}
 
 	OutHitLocation = FVector(0.f);
-	return false;
+	return true;
 }
