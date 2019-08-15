@@ -14,20 +14,7 @@
 void::ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	//FString PossesedTank;
 
-	ATank* PossessedTank = GetControlledTank();
-
-	if (PossessedTank)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("PlayerController Begin Play, with %s"), *PossessedTank->GetName())
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("PlayerController does not possess a Tank!"))
-	}
-
-	
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
