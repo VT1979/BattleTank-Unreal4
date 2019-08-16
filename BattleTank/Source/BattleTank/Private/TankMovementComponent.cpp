@@ -27,3 +27,10 @@ void UTankMovementComponent::IntendTurnRight(float Throw) {
 
 	//TODO fix the double speed issue if we combine inputs (stick axis plus triggers)
 }
+
+void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
+{
+	// No need to call Super() as we're replacing the functionality
+	
+	UE_LOG(LogTemp, Warning, TEXT("%s RequestDirectMove(): %f"), *GetOwner()->GetName(), *MoveVelocity.ToString())
+}
