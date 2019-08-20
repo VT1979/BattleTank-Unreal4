@@ -6,6 +6,17 @@
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
+
+UENUM() //Unreal Engine's coding standard to introduce Enumerations
+
+enum class EFiringState : uint8 
+{ 
+	Reloading,
+	Aiming,
+	Locked 
+};
+
+
 //Forward Declarations
 class UTankBarrel;
 class UTankTurret;
@@ -30,6 +41,9 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void AimAt(FVector HitLocation, float LaunchSpeed);
 
+protected:
+	UPROPERTY(BlueprintReadonly, Category = "State")
+	EFiringState FiringState = EFiringState::Reloading;
 
 private:
 	UTankBarrel* Barrel = nullptr;
