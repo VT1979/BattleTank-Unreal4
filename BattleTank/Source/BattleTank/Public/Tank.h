@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Evangelos Tsesmelidakis (for educaltional purposes only)
 
 #pragma once
 
@@ -9,6 +9,7 @@
 // Forward declarations
 class UTankAimingComponent;
 class UTankMovementComponent;
+class UTankBarrel;
 class AProjectile;
 
 UCLASS()
@@ -19,13 +20,7 @@ class BATTLETANK_API ATank : public APawn
 public: 
 	void AimAt(FVector HitLocation);
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelReference(UTankBarrel* BarrelToSet);
-
-	UFUNCTION(BlueprintCallable, Category = Setup)
-		void SetTurretReference(UTankTurret* TurretToSet);
-
-	UFUNCTION(BlueprintCallable, Category = Firing)
+	UFUNCTION(BlueprintCallable, Category = "Firing")
 		void Fire();
 
 protected:
@@ -35,28 +30,24 @@ protected:
 	UPROPERTY(BlueprintREadOnly)
 	UTankMovementComponent* TankMovementComponent = nullptr;
 
+	// Local barrel reference for spawning projectile
+	UTankBarrel* Barrel = nullptr; //TODO Remove after refactoring
+
 private:
 	// Sets default values for this pawn's properties
 	ATank();
 
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 
-	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float LaunchSpeed = 4000.0f; //TODO find a sensible default
 
-	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ReloadTimeInSeconds = 3.0f;
 
 	double LastFireTime;
 
-	// Local barrel reference for spawning projectile
-	UTankBarrel* Barrel = nullptr;
+	
 
 };
