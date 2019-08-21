@@ -3,6 +3,7 @@
 
 #include "TankPlayerController.h"
 #include "Public/Tank.h"
+#include "TankAimingComponent.h"
 #include "Engine/World.h"
 
 //#include "BattleTank.h" (instructor has it in vide, is it necessary?)
@@ -14,7 +15,15 @@
 void::ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-
+	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	if (AimingComponent)
+	{
+		FoundAimingComponent(AimingComponent);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("TankPlayerController can't find AimingComponent at BeginPlay"))
+	}
 }
 
 void ATankPlayerController::Tick(float DeltaTime)

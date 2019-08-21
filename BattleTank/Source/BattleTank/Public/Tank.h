@@ -33,6 +33,8 @@ protected:
 	// Local barrel reference for spawning projectile
 	UTankBarrel* Barrel = nullptr; //TODO Remove after refactoring
 
+	virtual void BeginPlay() override;
+
 private:
 	// Sets default values for this pawn's properties
 	ATank();
