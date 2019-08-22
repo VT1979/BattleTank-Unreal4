@@ -21,9 +21,9 @@ void ATankAIController::Tick(float DeltaTime)
 	// Move towards the player
 	MoveToActor(PlayerTank, AcceptanceRadius); //TODO check acceptance radius is in cm
 
-	ControlledTank->FindComponentByClass<UTankAimingComponent>()->AimAt(PlayerTank->GetActorLocation());
+	auto AimingComponent = ControlledTank->FindComponentByClass<UTankAimingComponent>();
+	AimingComponent->AimAt(PlayerTank->GetActorLocation());
 
-	// TODO Fix firing
-	//	ControlledTank->Fire(); 
+	AimingComponent->Fire(); 
 	
 }
