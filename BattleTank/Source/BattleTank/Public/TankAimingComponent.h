@@ -37,7 +37,7 @@ public:
 
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	void AimAt(FVector HitLocation, float LaunchSpeed);
+	void AimAt(FVector HitLocation);
 
 protected:
 	UPROPERTY(BlueprintReadonly, Category = "State")
@@ -46,6 +46,9 @@ protected:
 private:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float LaunchSpeed = 4000.0f; //TODO find a sensible default
 
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;

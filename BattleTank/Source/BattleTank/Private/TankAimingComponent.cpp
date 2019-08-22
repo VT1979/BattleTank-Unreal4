@@ -39,7 +39,7 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	// ...
 }
 
-void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
+void UTankAimingComponent::AimAt(FVector HitLocation)
 {
 	if (!ensure(Barrel)) { return; }
 	if (!ensure(Turret)) { return; }
@@ -67,17 +67,10 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		auto TankName = GetOwner()->GetName();
 
-		//UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *TankName, *AimDirection.ToString());
 		MoveBarrel(AimDirection);
-		
-		//UE_LOG(LogTemp, Warning, TEXT("Aim solution found"))
 	}
 
-	else
-	{
-		auto Time = GetWorld()->GetRealTimeSeconds();
-		//UE_LOG(LogTemp, Warning, TEXT("%f: No aim solution found"),Time)
-	}
+	// else do nothing
 	
 }
 
