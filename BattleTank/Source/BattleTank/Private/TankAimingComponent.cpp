@@ -90,6 +90,11 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 	// so moved it as a private class member
 }
 
+EFiringState UTankAimingComponent::GetFiringState() const
+{
+	return FiringState;
+}
+
 void UTankAimingComponent::MoveBarrel(FVector AimDirection)
 {
 	if (!ensure(Barrel)) { return; }
