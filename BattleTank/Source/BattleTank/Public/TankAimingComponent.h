@@ -13,7 +13,8 @@ enum class EFiringState : uint8
 { 
 	Reloading,
 	Aiming,
-	Locked 
+	Locked, 
+	OutOfAmmo
 };
 
 
@@ -42,6 +43,9 @@ public:
 	void AimAt(FVector HitLocation);
 
 	EFiringState GetFiringState() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	int GetAmmunitionRounds() const;
 		
 protected:
 	UPROPERTY(BlueprintReadonly, Category = "State")
@@ -70,7 +74,10 @@ private:
 
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	float LaunchSpeed = 4000.0f; //TODO find a sensible default
+	float LaunchSpeed = 8000.0f; 
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	int AmmunitionRounds = 3;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AProjectile> ProjectileBlueprint;
