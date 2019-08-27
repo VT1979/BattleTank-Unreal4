@@ -27,8 +27,9 @@ void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* Tur
 void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
 	LastFireTime = FPlatformTime::Seconds(); // so that everyone has to wait before firing when the game first starts
+
+
 
 	// ...
 	
@@ -39,7 +40,7 @@ void UTankAimingComponent::BeginPlay()
 void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	if (AmmunitionRounds == 0)
+	if (RemainingAmmoRounds == 0)
 	{
 		FiringState = EFiringState::OutOfAmmo;
 	}
@@ -102,9 +103,14 @@ EFiringState UTankAimingComponent::GetFiringState() const
 	return FiringState;
 }
 
-int UTankAimingComponent::GetAmmunitionRounds() const
+int UTankAimingComponent::GetRemainingAmmoRounds() const
 {
-	return AmmunitionRounds;
+	return RemainingAmmoRounds;
+}
+
+int UTankAimingComponent::GetMaxAmmoRounds() const
+{
+	return MaxAmmoRounds;
 }
 
 void UTankAimingComponent::MoveBarrel(FVector AimDirection)
@@ -139,6 +145,7 @@ bool UTankAimingComponent::IsBarrelMoving()
 
 void UTankAimingComponent::Fire()
 {
+	UE_LOG(LogTemp, Warning, TEXT("After Fire() called RemainingRounds set to: %i"), RemainingAmmoRounds)
 	if (!ensure(Barrel)) { return; }
 	if (!ensure(ProjectileBlueprint)) { return; }
 
@@ -155,9 +162,9 @@ void UTankAimingComponent::Fire()
 		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds();
 
-		if (AmmunitionRounds > 0) // No point letting the value go subzero...
+		if (RemainingAmmoRounds > 0) // No point letting the value go subzero...
 		{
-			AmmunitionRounds -= 1;
+			RemainingAmmoRounds -= 1;
 		}
 
 	}

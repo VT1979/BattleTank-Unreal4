@@ -45,8 +45,11 @@ public:
 	EFiringState GetFiringState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
-	int GetAmmunitionRounds() const;
-		
+	int GetRemainingAmmoRounds() const;
+	
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	int GetMaxAmmoRounds() const;
+
 protected:
 	UPROPERTY(BlueprintReadonly, Category = "State")
 	EFiringState FiringState = EFiringState::Aiming;
@@ -77,7 +80,9 @@ private:
 	float LaunchSpeed = 8000.0f; 
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	int AmmunitionRounds = 3;
+	int MaxAmmoRounds = 3;
+
+	int RemainingAmmoRounds = MaxAmmoRounds;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AProjectile> ProjectileBlueprint;
