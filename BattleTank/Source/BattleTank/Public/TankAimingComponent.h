@@ -45,10 +45,10 @@ public:
 	EFiringState GetFiringState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
-	int GetRemainingAmmoRounds() const;
+	int32 GetRemainingAmmoRounds() const;
 	
 	UFUNCTION(BlueprintCallable, Category = "Firing")
-	int GetMaxAmmoRounds() const;
+	int32 GetMaxAmmoRounds() const;
 
 protected:
 	UPROPERTY(BlueprintReadonly, Category = "State")
@@ -73,16 +73,16 @@ private:
 	UTankTurret* Turret = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	float ReloadTimeInSeconds = 3.0f;
+	float ReloadTimeInSeconds = .5f;
 
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float LaunchSpeed = 8000.0f; 
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	int MaxAmmoRounds = 3;
+	int32 MaxAmmoRounds = 20;
 
-	int RemainingAmmoRounds = MaxAmmoRounds;
+	int32 RemainingAmmoRounds;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AProjectile> ProjectileBlueprint;

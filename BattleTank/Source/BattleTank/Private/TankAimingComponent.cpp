@@ -29,7 +29,7 @@ void UTankAimingComponent::BeginPlay()
 	Super::BeginPlay();
 	LastFireTime = FPlatformTime::Seconds(); // so that everyone has to wait before firing when the game first starts
 
-
+	RemainingAmmoRounds = MaxAmmoRounds;
 
 	// ...
 	
@@ -103,12 +103,12 @@ EFiringState UTankAimingComponent::GetFiringState() const
 	return FiringState;
 }
 
-int UTankAimingComponent::GetRemainingAmmoRounds() const
+int32 UTankAimingComponent::GetRemainingAmmoRounds() const
 {
 	return RemainingAmmoRounds;
 }
 
-int UTankAimingComponent::GetMaxAmmoRounds() const
+int32 UTankAimingComponent::GetMaxAmmoRounds() const
 {
 	return MaxAmmoRounds;
 }
@@ -145,7 +145,6 @@ bool UTankAimingComponent::IsBarrelMoving()
 
 void UTankAimingComponent::Fire()
 {
-	UE_LOG(LogTemp, Warning, TEXT("After Fire() called RemainingRounds set to: %i"), RemainingAmmoRounds)
 	if (!ensure(Barrel)) { return; }
 	if (!ensure(ProjectileBlueprint)) { return; }
 
