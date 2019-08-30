@@ -9,6 +9,7 @@
 class UProjectileMovementComponent;
 class UStaticMeshComponent;
 class UParticleSystemComponent;
+class URadialForceComponent;
 
 UCLASS()
 class BATTLETANK_API AProjectile : public AActor
@@ -38,7 +39,17 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Setup")
 	UParticleSystemComponent* ImpactBlast = nullptr;
 
-	UFUNCTION(Blueprintcallable, Category = "Setup")
+	UPROPERTY(VisibleAnywhere, Category = "Explosion")
+	URadialForceComponent* ExplosionForce = nullptr;
+
+	// Determines the time (in seconds) before the object Projectile_BP is destroyed
+	UPROPERTY(EditDefaultsOnly, Category = "Explosion")
+	float DestroyDelay = 10.0f;
+
+	UFUNCTION(Blueprintcallable, Category = "Explosion")
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+
+	UFUNCTION(Blueprintcallable, Category = "Explosion")
+	void OnTimerExpire();
 
 };
