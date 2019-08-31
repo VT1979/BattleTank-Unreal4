@@ -14,3 +14,21 @@ ATank::ATank()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 }
+
+float ATank::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)
+{
+	UE_LOG(LogTemp, Warning, TEXT("TakeDamage was called with DamageAmount: %f"), DamageAmount)
+
+	auto DamageToApply = FPlatformMath::RoundToInt(Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser));
+	UE_LOG(LogTemp, Warning, TEXT("DamageToApply: %i"), DamageToApply)
+
+	DamageToApply = FMath::Clamp<int32>(DamageToApply, 0, CurrentHealth);
+	CurrentHealth -= DamageToApply;
+
+	if (CurrentHealth == 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s died!"), *GetName())
+	}
+
+	return DamageToApply;
+}
