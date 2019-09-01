@@ -27,6 +27,7 @@ private:
 	
 	void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+	virtual void SetPawn(APawn* InPawn) override;
 
 	//Start moving the tank's barrel so that a shot would hit where the crosshair intersects the world. 
 	void AimTowardsCrosshair();
@@ -35,6 +36,9 @@ private:
 	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
 
 	bool GetLookVectorHitLocation(FVector LookDirection, FVector& OutHitLocation) const;
+
+	UFUNCTION(BlueprintCallable, Category = "DeathEvent")
+	void OnTankDeath();
 
 	UPROPERTY(EditDefaultsOnly)
 	float CrossHairXLocation = 0.5f;

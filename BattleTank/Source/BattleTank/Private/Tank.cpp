@@ -3,9 +3,13 @@
 
 #include "Tank.h"
 
+
+
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();	// NEEDED for Blueprint BeginPlay() to run. VERY IMPORTANT!
+
+	CurrentHealth = StartingHealth;
 }
 
 // Sets default values
@@ -17,18 +21,19 @@ ATank::ATank()
 
 float ATank::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)
 {
-	UE_LOG(LogTemp, Warning, TEXT("TakeDamage was called with DamageAmount: %f"), DamageAmount)
-
 	auto DamageToApply = FPlatformMath::RoundToInt(Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser));
-	UE_LOG(LogTemp, Warning, TEXT("DamageToApply: %i"), DamageToApply)
-
 	DamageToApply = FMath::Clamp<int32>(DamageToApply, 0, CurrentHealth);
 	CurrentHealth -= DamageToApply;
 
 	if (CurrentHealth == 0)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("%s died!"), *GetName())
+		TankDies.Broadcast();
 	}
 
 	return DamageToApply;
+}
+
+float ATank::GetHealthPercent() const
+{
+	return (float)CurrentHealth / (float)StartingHealth;
 }

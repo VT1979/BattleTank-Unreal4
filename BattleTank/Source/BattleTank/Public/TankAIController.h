@@ -10,6 +10,7 @@
 /**
  * 
  */
+
 UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
 {
@@ -22,6 +23,10 @@ protected:
 private:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+	virtual void SetPawn(APawn* InPawn) override;
+
+	UFUNCTION(BlueprintCallable, Category = "DeathEvent")
+	void OnTankDeath();
 
 	//How close the AI tank can get close to a player
 	

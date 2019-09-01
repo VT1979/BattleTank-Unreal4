@@ -4,6 +4,7 @@
 #include "TankPlayerController.h"
 #include "TankAimingComponent.h"
 #include "Engine/World.h"
+#include "Tank.h"
 
 //#include "BattleTank.h" (instructor has it in vide, is it necessary?)
 
@@ -22,11 +23,26 @@ void::ATankPlayerController::BeginPlay()
 	// else do nothing, the ensure statement will log the error
 }
 
+void ATankPlayerController::SetPawn(APawn* InPawn)
+{
+	Super::SetPawn(InPawn);
+
+	if (InPawn) {
+		auto PossessedTank = Cast<ATank>(InPawn);
+
+		if (!ensure(PossessedTank)) { return; }
+
+		PossessedTank->TankDies.AddUniqueDynamic(this, &ATankPlayerController::OnTankDeath);
+	}
+}
+
 void ATankPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	AimTowardsCrosshair();
 }
+
+
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
@@ -91,4 +107,10 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 
 	OutHitLocation = FVector(0.f);
 	return false;
+}
+
+void ATankPlayerController::OnTankDeath()
+{
+	UE_LOG(LogTemp, Warning, TEXT("TankPlayerController reports: %s is dead!"), *GetPawn()->GetName())
+	StartSpectatingOnly();
 }
