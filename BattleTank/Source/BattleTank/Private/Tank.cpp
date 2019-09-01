@@ -2,7 +2,7 @@
 
 
 #include "Tank.h"
-
+#include "Components\SceneComponent.h"
 
 
 void ATank::BeginPlay()
