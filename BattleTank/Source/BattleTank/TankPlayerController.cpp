@@ -93,8 +93,6 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 	FCollisionQueryParams MyCollisionQueryParams = FCollisionQueryParams::DefaultQueryParam;	// Wasn't sure how to create my own FCollisionQueryParams struct from scratch, so...
 	MyCollisionQueryParams.AddIgnoredActor(Cast<AActor>(GetPawn()));							// ... I created a default one and then added an ignored Actor, i.e. this Tank
 
-	UE_LOG(LogTemp, Warning, TEXT("%s is Owner"), *Cast<AActor>(GetPawn())->GetName())
-
 	auto StartLocation = PlayerCameraManager->GetCameraLocation();
 	auto EndLocation = StartLocation + (LookDirection * LineTraceRange);
 
