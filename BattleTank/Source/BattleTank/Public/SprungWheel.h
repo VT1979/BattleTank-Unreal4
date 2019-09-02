@@ -25,15 +25,16 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	
+
 private:
 	//Components
-	UPROPERTY(VisibleAnywhere, Category = "Components")
-	UStaticMeshComponent* Chassis = nullptr;
-
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UStaticMeshComponent* Wheel = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UPhysicsConstraintComponent* PhysicsConstraint = nullptr;
 
+
+	void SetupConstraints();
 };
