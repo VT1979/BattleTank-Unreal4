@@ -2,6 +2,9 @@
 
 
 #include "TankTrack.h"
+#include "SprungWheel.h"
+#include "SpawnPoint.h"
+
 UTankTrack::UTankTrack() {
 	PrimaryComponentTick.bCanEverTick = true;
 
@@ -11,40 +14,49 @@ UTankTrack::UTankTrack() {
 void UTankTrack::BeginPlay() {
 	
 	Super::BeginPlay();
-
-	OnComponentHit.AddDynamic(this, &UTankTrack::OnHit);
-
 }
 
-
-void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
+TArray<class ASprungWheel*> UTankTrack::GetWheels() const
 {
-	DriveTrack();
-	ApplySidewaysForce();
-	CurrentThrottle = 0;
+	TArray<ASprungWheel*> FoundWheels;
+	TArray<USceneComponent*> ChildrenComponents;
+	GetChildrenComponents(true, OUT ChildrenComponents);
+
+	for (USceneComponent* Child : ChildrenComponents)
+	{
+		auto SpawnPointChild = Cast<USpawnPoint>(Child);
+		if (!SpawnPointChild) continue;
+
+		AActor* SpawnedChild = SpawnPointChild->GetTankSuspension();
+		auto SprungWheel = Cast<ASprungWheel>(SpawnedChild);
+		if (!SprungWheel) continue;
+
+		FoundWheels.Add(SprungWheel);
+	}
+
+
+	return FoundWheels;
 }
+
+
+
 
 void UTankTrack::SetThrottle(float Throttle)
 {
-	CurrentThrottle = FMath::Clamp<float>(CurrentThrottle + Throttle, -2, 2);
-
+	float CurrentThrottle = FMath::Clamp<float>(Throttle, -2, 2);
+	DriveTrack(CurrentThrottle);
 }
 
-void UTankTrack::DriveTrack()
+void UTankTrack::DriveTrack(float CurrentThrottle)
 {
-	auto ForceApplied = GetForwardVector() * CurrentThrottle * TrackMaxDrivingForce;
-	auto ForceLocation = GetComponentLocation();
-	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
-	TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
+	auto ForceApplied = CurrentThrottle * TrackMaxDrivingForce;
+	
+	auto Wheels = GetWheels();
+	auto ForcePerWheel = ForceApplied / Wheels.Num();
+
+	for (ASprungWheel* Wheel : Wheels)
+	{
+		Wheel->AddDrivingForce(ForceApplied);
+	}
 }
 
-void UTankTrack::ApplySidewaysForce()
-{
-	// calculate slippage speed
-	auto SlippageSpeed = FVector::DotProduct(ComponentVelocity, GetRightVector());
-	auto DeltaTime = GetWorld()->GetDeltaSeconds();
-	auto CorrectionAcceleration = -SlippageSpeed / DeltaTime * GetRightVector(); // acceleration = speed/time 
-	auto TankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
-	auto CorrectionForce = (TankRoot->GetMass() * CorrectionAcceleration) / 2; // because we have two tracks
-	TankRoot->AddForce(CorrectionForce);
-}

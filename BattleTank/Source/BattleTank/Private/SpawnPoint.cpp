@@ -22,7 +22,7 @@ void USpawnPoint::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto TankSuspension = GetWorld()->SpawnActorDeferred<ASprungWheel>(SuspensionSystemBlueprint, GetComponentTransform());
+	TankSuspension = GetWorld()->SpawnActorDeferred<ASprungWheel>(SuspensionSystemBlueprint, GetComponentTransform());
 	if (!TankSuspension) { return; }
 	TankSuspension->AttachToComponent(this, FAttachmentTransformRules::KeepWorldTransform);	// We use KeepWorldTransform here because we already specify the spawn location up above to be the component's location
 	UGameplayStatics::FinishSpawningActor(TankSuspension, GetComponentTransform());
